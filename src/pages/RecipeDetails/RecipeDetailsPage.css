@@ -1,0 +1,249 @@
+.recipeName {
+    position: absolute;
+    margin-top: -330px;
+    left: 535px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #0065CC;
+    text-shadow: 1px 1px #eee;
+    font-family: 'Roboto';
+    font-size: 40px;
+    width: 660px;
+    
+}
+
+.creatorName {
+    position: relative;
+    margin-top: -240px;
+    margin-left: 530px;
+    text-align: justify;
+    letter-spacing: 0.05em;
+    color: #737373;
+    font-family: 'Roboto';
+    font-size: 20px;
+    padding: 0px 0px 20px 0px;
+}
+
+.addedText {
+    flex-grow: 1;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    color: #737373;
+
+}
+
+.bookmark-button {
+    position: relative;
+    top: -130px;
+    left:1200px;
+}
+
+.metric-button {
+  position: absolute;
+  top: 10px;
+  left: 530px;
+}
+
+.set-rating {
+    position: absolute;
+    left: 210px;
+    top: 540px;
+    font-size: 15px;
+    font-family: 'poppins';
+    color: #f49b36;
+}
+
+
+.addedText {
+    position: absolute;
+    top: 50%;
+    left: 45px;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #737373;
+}
+
+.summary {
+    text-align: justify;
+    width: 60%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    padding: 20px 0px 20px 0px;
+    margin-left: 530px;
+    max-width: 650px;
+    color: #595959;
+    line-height: 30px;
+}
+
+.hr-line {
+    width: 700px;
+    margin-left: 530px;
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+  }
+
+  .parent2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+  }
+  
+  .textarea-container {
+    width: 50%; 
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-end; 
+    align-items: stretch;
+        
+  }
+  
+  .textarea {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .commenttitle {
+    text-transform: uppercase;
+    color: #0065CC;
+    text-shadow: 1px 1px #eee;
+    font-family: 'Roboto';
+    font-size: 30px;
+  }
+
+  .commentlist {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: 200px; 
+  }
+  
+  .commentpoint {
+    border-bottom: 1px solid lightgray;
+    padding: 5px 0;
+  }
+
+  .commentname {    
+    color: #0065CC;
+    font-family: 'Roboto';
+    font-size: 18px;
+  }
+
+
+@media only screen and (max-width: 600px) {
+
+    .recipeName{
+        text-align: left;
+        position: relative;
+        margin: 0 auto;
+        width: 85%;
+        top: 410px;
+        left: 0;
+        right: 0;
+        font-size: 20px;
+    }
+
+    .creatorName {
+        position: relative;
+        margin: 0 auto;
+        text-align: left;
+        width: 85%; 
+        margin-top: 430px;
+        font-size: 16px;
+        display: block;
+    }
+
+    .bookmark-button {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        text-align: left;
+        right: 0;
+        margin: 0 auto;
+    }
+
+    .metric-button {
+      position: relative;
+      top: -150px;
+      left: 190px;
+    }
+
+    .addedText {
+        display: none;
+    }
+
+    .summary {
+        position: relative;
+        margin: 0 auto;
+        text-align: justify;
+        width: 85%;
+        left: 0;
+        right: 0;
+        margin-top: 0px;
+        font-size: 12px;
+        line-height: 20px;
+           
+    }
+
+   .hr-line {
+    position: relative;
+    margin: 0 auto;
+    left:  0;
+    right: 0;
+    margin-top: 0px;
+    width: 90%;
+    } 
+
+    .set-rating {
+        position: absolute;
+        margin: 0 auto;
+        left: 0px;
+        right: 0;
+        width: 80%;
+        font-size: 12px;
+        top: 385px;
+        text-align: center;
+    }
+
+
+     .borrow-button {
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: 440px;
+        justify-content: center;
+    }
+
+    .commenttitle {
+        text-transform: uppercase;
+        color: #0065CC;
+        text-shadow: 1px 1px #eee;
+        font-family: 'Roboto';
+        font-size: 20px;
+      }
+    
+      .commentlist {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .commentpoint {
+        border-bottom: 1px solid lightgray;
+        padding: 5px 0;
+      }
+    
+      .commentname {    
+        color: #0065CC;
+        font-family: 'Roboto';
+        font-size: 15px;
+      }
+}

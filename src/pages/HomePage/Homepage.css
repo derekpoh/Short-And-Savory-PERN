@@ -1,0 +1,12 @@
+body {
+    background-color: #F0F8FA;
+}
+
+.homepage {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.carousel {
+    margin-top: 5px;
+}

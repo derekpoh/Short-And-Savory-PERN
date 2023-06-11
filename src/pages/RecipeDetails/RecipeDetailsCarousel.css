@@ -1,0 +1,136 @@
+.image-slider {
+    position: relative;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ .image {
+    width: 350px;
+    height: 300px;
+    border-radius: 12px;
+    margin-top: 80px;
+    margin-left: 160px;
+ }
+ .left {
+   position: absolute;
+   top: 50%;
+   left: 90px;
+   transform: translateY(-50%);
+   font-size: 1rem;
+   color: white;
+   z-index: 5;
+   cursor: pointer;
+   user-select: none;
+}
+.right {
+   position: absolute;
+   top: 50%;
+   right: 800px;
+   transform: translateY(-50%);
+   font-size: 2rem;
+   color: white;
+   z-index: 5;
+   cursor: pointer;
+   user-select: none;
+}
+
+
+.left:before {
+   content: "";
+   display: block;
+   position: absolute;
+   top: 45%;
+   left: -8px;
+   transform: translateY(-50%);
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   background-color: rgba(0, 0, 0, 0.3);
+   z-index: -1;
+}
+
+.right:before {
+   content: "";
+   display: block;
+   position: absolute;
+   top: 48%;
+   left: 46%;
+   transform: translate(-50%, -50%);
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   background-color: rgba(0, 0, 0, 0.3);
+   z-index: -1;
+}
+ .currentSlide {
+    transition-duration: 0.5s ease;
+    opacity: 0;
+ }
+ .currentSlide.active {
+    opacity: 1;
+    transition-duration: 0.5s;
+    transform: scale(1.2);
+ }
+ h2 {text-align: center;} 
+
+
+ @media only screen and (max-width: 600px) {
+   .image {
+      width: 250px;
+      height: 200px;
+      border-radius: 12px;
+   }
+   .left {
+      position: absolute;
+      top: 40%;
+      left: -10px;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      color: white;
+      z-index: 5;
+      cursor: pointer;
+      user-select: none;
+   }
+   .right {
+      position: absolute;
+      top: 39%;
+      right: -10px;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: white;
+      z-index: 5;
+      cursor: pointer;
+      user-select: none;
+   }
+   
+   
+   .left:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 45%;
+      left: -8px;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: -1;
+   }
+   
+   .right:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 48%;
+      left: 46%;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: -1;
+   }
+
+ }

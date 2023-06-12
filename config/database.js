@@ -1,7 +1,6 @@
 require('dotenv').config({ path: '../.env' });
-
-
 const {Client} = require("pg");
+
 
 const client = new Client({
   host: "localhost",
@@ -11,15 +10,18 @@ const client = new Client({
   database: "Capstone"
 });
 
-client.connect();
-
-client.query(`SELECT * FROM users`, (err, res) => {
-  if(!err) {
-    console.log(res.rows);
-  } else {
-    console.log(err.message);
+const connectDatabase = async () => {
+  try {
+    await client.connect();
+    console.log('Database connected');
+  } catch (error) {
+    console.error('Error connecting to the database:', error);
   }
-  client.end();
-})
+};
+
+module.exports = {
+  client,
+  connectDatabase,
+};
 
 

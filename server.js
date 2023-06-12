@@ -3,7 +3,7 @@ const path = require("path");
 const logger = require("morgan");
 const bodyParser = require("body-parser")
 require('dotenv').config();
-require('./config/database');
+const { connectDatabase } = require('./config/database');
 
 const app = express();
 const port = process.env.PORT;
@@ -30,7 +30,12 @@ app.get("/*", function (req, res) {
     res.sendFile(path.join(__dirname, "dist", "index.html"));
   });
   
-  app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+connectDatabase()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Example app listening on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Error connecting to the database:', error);
   });
-

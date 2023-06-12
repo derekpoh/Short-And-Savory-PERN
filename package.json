@@ -45,7 +45,6 @@
   "engines": {
     "node": ">=18"
   },
-  "description": "- MongoDB, Mongoose\r   - Express\r   - React Typescript\r   - Node\r   - Material UI\r   - Github",
   "main": "server.js",
   "repository": {
     "type": "git",

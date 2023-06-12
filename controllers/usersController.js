@@ -1,10 +1,12 @@
-const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 const bcrypt = require("bcrypt");
+const {client} = require("../config/database");
+const SALT_ROUNDS = 10;
 
 const create = async (req, res) => {
-    const {password, username} = req.body;
+    const { password, username, email } = req.body;
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     if (password.length < 3) {
         return res.status(400).json({ error: "your password is too short" });
     }
@@ -15,19 +17,28 @@ const create = async (req, res) => {
         return res.status(400).json({ error: "your name is too long" });
     }
     try {
-    const user = await User.create(req.body);
-    const payload = { user };
-    const token = jwt.sign(payload, JWT_SECRET, {expiresIn:60*60});
-    res.status(201).json(token);
+        const { rows } = await client.query(
+            `INSERT INTO users (username, email, password) 
+            VALUES ($1, $2, $3)
+            RETURNING *`,
+            [username, email, hashedPassword]
+        );
+        const payload = rows[0];
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: 60 * 60 });
+        res.status(201).json(token);
     } catch (error) {
         res.status(500).json(error);
     }
 };
 
+
 const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await User.findOne({ email });
+        const {rows} = await client.query(
+            `SELECT * FROM users
+            WHERE email = $1`, [email]);
+        const user = rows[0];
         if (!user) {
             res.status(401).json({ message: "User or password is invalid" });
             return;

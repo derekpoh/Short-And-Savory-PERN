@@ -17,7 +17,7 @@ Remake of GA Capstone with PERN stack
 
 ## Project Architecture
 
-![ERD](public/readme_resource/erd.JPG)
+![ERD](public/readme_resource/ERD.JPG)
 
 
 

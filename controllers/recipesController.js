@@ -1,4 +1,5 @@
-const VIEWINCREASE = 1
+const VIEWINCREASE = 1;
+const {client} = require("../config/database");
 
 
 const calculateAverageRating = (ratings) => {
@@ -107,8 +108,29 @@ const setComment = async (req,res) => {
 
 const create = async (req,res) => {
     try {
-        const recipe = await Recipe.create(req.body);
-        res.status(201).json(recipe);
+        const {recipe, cuisine, description, owner, imagefile, ingredients, instructions} = req.body
+        console.log(instructions)
+        const {rows} = await client.query(
+          `INSERT INTO recipes
+          (recipe, cuisine, description, created_at, owner_id, imagefile)
+          VALUES ($1, $2, $3, $4, $5, $6)
+          RETURNING *`,
+          [recipe, cuisine, description, new Date(), owner.id, imagefile]);
+        const newRecipe = rows[0]
+        ingredients.forEach(ingredient => {
+          client.query(
+            `INSERT INTO ingredients
+            (name, quantity, measurement, recipe_id)
+            VALUES ($1, $2, $3, $4)`,
+            [ingredient.name, ingredient.quantity, ingredient.measurement, newRecipe.id]);
+        })
+        instructions.forEach(instruction => {
+          client.query(
+            `INSERT INTO instructions
+            (instruction, recipe_id)
+            VALUES ($1, $2)`,
+            [instruction, newRecipe.id]);
+        })
         } catch (error) {
             res.status(500).json(error);
         }

@@ -18,7 +18,8 @@ const create = async (req, res) => {
     }
     try {
         const { rows } = await client.query(
-            `INSERT INTO users (username, email, password) 
+            `INSERT INTO users 
+            (username, email, password) 
             VALUES ($1, $2, $3)
             RETURNING *`,
             [username, email, hashedPassword]

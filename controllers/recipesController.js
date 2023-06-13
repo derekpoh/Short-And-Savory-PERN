@@ -109,7 +109,6 @@ const setComment = async (req,res) => {
 const create = async (req,res) => {
     try {
         const {recipe, cuisine, description, owner, imagefile, ingredients, instructions} = req.body
-        console.log(instructions)
         const {rows} = await client.query(
           `INSERT INTO recipes
           (recipe, cuisine, description, created_at, owner_id, imagefile)
@@ -121,16 +120,19 @@ const create = async (req,res) => {
           client.query(
             `INSERT INTO ingredients
             (name, quantity, measurement, recipe_id)
-            VALUES ($1, $2, $3, $4)`,
+            VALUES ($1, $2, $3, $4)
+            RETURNING *`,
             [ingredient.name, ingredient.quantity, ingredient.measurement, newRecipe.id]);
         })
         instructions.forEach(instruction => {
           client.query(
             `INSERT INTO instructions
             (instruction, recipe_id)
-            VALUES ($1, $2)`,
+            VALUES ($1, $2)
+            RETURNING *`,
             [instruction, newRecipe.id]);
         })
+        res.status(201).json(req.body);
         } catch (error) {
             res.status(500).json(error);
         }
@@ -156,8 +158,30 @@ const deleteRecipe = async (req,res) => {
 
 const edit = async (req,res) => {
   try {
-    const recipe = await Recipe.findById(req.params.id).populate("owner");
-    res.status(201).json(recipe);
+    const {id} = req.params;
+    const {rows} = await client.query(
+      `SELECT * FROM recipes
+      WHERE id = $1`,
+      [id]
+    )
+    const updateRecipe = rows[0]
+    const updateIngredients = await client.query(
+      `SELECT * FROM ingredients
+      WHERE recipe_id = $1`,
+      [id]
+    )
+    const updateInstructions = await client.query(
+      `SELECT * FROM instructions
+      WHERE recipe_id = $1`,
+      [id]
+    )
+    const instructionArray = [];
+    updateInstructions.rows.forEach(instruction => {
+      instructionArray.push(instruction.instruction)
+    })
+    updateRecipe.ingredients = updateIngredients.rows;
+    updateRecipe.instructions = instructionArray;
+    res.status(201).json(updateRecipe);
     } catch (error) {
         res.status(500).json(error);
     }

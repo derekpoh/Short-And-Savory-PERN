@@ -132,6 +132,16 @@ const create = async (req,res) => {
             RETURNING *`,
             [instruction, newRecipe.id]);
         })
+        if (req.body.imageurl) {
+          req.body.imageurl.forEach(imageurl => {
+            client.query(
+              `INSERT INTO imageurl
+              (url, recipe_id)
+              VALUES ($1, $2)
+              RETURNING *`,
+              [imageurl, newRecipe.id]);
+          })
+        }
         res.status(201).json(req.body);
         } catch (error) {
             res.status(500).json(error);
@@ -154,8 +164,28 @@ const update = async (req,res) => {
 
 const deleteRecipe = async (req,res) => {
   try {
-    const recipe = await Recipe.findByIdAndDelete(req.params.id);
-    res.status(201).json(recipe);
+    const {id} = req.params;
+    const queryString = (query) => {
+      return client.query(
+      `DELETE FROM ${query} 
+      WHERE recipe_id = $1 
+      RETURNING *`,
+      [id]
+      )
+    };
+    await queryString('comments');
+    await queryString('bookmarks');
+    await queryString('ingredients');
+    await queryString('instructions');
+    await queryString('imageurl');
+    await queryString('ratings');
+    const {rows} = await client.query(
+      `DELETE FROM recipes 
+      WHERE id = $1 
+      RETURNING *`,
+      [id]
+      );
+    res.status(201).json(rows[0]);
     } catch (error) {
         res.status(500).json(error);
     }
@@ -164,28 +194,29 @@ const deleteRecipe = async (req,res) => {
 const edit = async (req,res) => {
   try {
     const {id} = req.params;
+    const queryString = (query) => {
+      return client.query(
+        `SELECT * FROM ${query}
+        WHERE recipe_id = $1`,
+        [id]
+      )
+    };
     const {rows} = await client.query(
       `SELECT * FROM recipes
       WHERE id = $1`,
       [id]
-    )
+    );
     const updateRecipe = rows[0]
-    const updateIngredients = await client.query(
-      `SELECT * FROM ingredients
-      WHERE recipe_id = $1`,
-      [id]
-    )
-    const updateInstructions = await client.query(
-      `SELECT * FROM instructions
-      WHERE recipe_id = $1`,
-      [id]
-    )
-    const instructionArray = [];
-    updateInstructions.rows.forEach(instruction => {
-      instructionArray.push(instruction.instruction)
-    })
+    const updateIngredients = await queryString('ingredients');
+    const updateInstructions = await queryString('instructions');
+    const updateImageurl = await queryString('imageurl');
+    const instructionArray = updateInstructions.rows.map((instruction) => instruction.instruction);
     updateRecipe.ingredients = updateIngredients.rows;
     updateRecipe.instructions = instructionArray;
+    if (updateImageurl.rows.length > 0) {
+      const urlArray = updateImageurl.rows.map((url) => url.url);
+      updateRecipe.imageurl = urlArray;
+    }
     res.status(201).json(updateRecipe);
     } catch (error) {
         res.status(500).json(error);

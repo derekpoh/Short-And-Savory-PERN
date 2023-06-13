@@ -140,8 +140,13 @@ const create = async (req,res) => {
 
 const update = async (req,res) => {
   try {
-    const recipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate("owner");
-    res.status(201).json(recipe);
+    const {id, recipe, cuisine, description, owner, imagefile, ingredients, instructions} = req.body;
+    const {rows} = await client.query(
+      `UPDATE recipes
+      SET recipe = $1, cuisine = $2, description = $3, imagefile = $4
+      RETURNING *`,
+      [recipe, cuisine, description, imagefile]);
+    //res.status(201).json(recipe);
     } catch (error) {
         res.status(500).json(error);
     }
